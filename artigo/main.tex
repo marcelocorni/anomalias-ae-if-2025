@@ -3,6 +3,7 @@
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 \usepackage[brazil]{babel}
+\usepackage[hidelinks]{hyperref}
 \usepackage{indentfirst,graphicx,url,booktabs,array,amsmath,flafter}
 \sloppy
 \title{Detecção de anomalias em transações Ethereum:\\avaliação temporal de Autoencoder e Isolation Forest}
@@ -76,7 +77,7 @@ A concordância é $J(A,I)=|A\cap I|/|A\cup I|$. A mudança marginal é caracter
 A referência auxiliar é um CSV histórico do Etherscan Label Cloud \cite{EtherscanLabels}, com 3.913 linhas e 3.750 endereços únicos. A associação positiva corresponde ao remetente constar como \texttt{mev\_bot}; as demais transações são denominadas não associadas. Trata-se de associação histórica de endereços, não de confirmação de ataques individuais. O snapshot possui data desconhecida e categorias reconstruídas a partir do arquivo histórico. Rótulos não participam do ajuste ou da calibração. ROC-AUC e AP utilizam todos os grupos de escores empatados; apenas as curvas são reduzidas para visualização. Avaliamos também \textit{precision}, \textit{recall} e concentração nos 1\% maiores escores, com desempate pelo identificador da transação.
 
 \subsection{Reprodutibilidade}
-O código está disponível em \url{https://github.com/marcelocorni/anomalias-ae-if-2025}. O arquivo \texttt{uv.lock} fixa as dependências; o código e as configurações definem atributos, janelas, semente e hiperparâmetros. O comando \texttt{python scripts/executar\_etapa4.py --executar} integra processamento, avaliações e figuras. Manifestos registram hashes de entradas e saídas, contagens e tempos, com retomada de etapas conferidas. Os Parquets da AWS e o CSV histórico do Label Cloud são entradas externas, não versionadas; o CSV deve ser obtido separadamente e corresponde ao SHA-256 definido na configuração. A documentação descreve a preparação do ambiente e dos caminhos locais.
+O código está disponível no \href{https://github.com/marcelocorni/anomalias-ae-if-2025}{repositório público no GitHub}. O arquivo \texttt{uv.lock} fixa as dependências; o código e as configurações definem atributos, janelas, semente e hiperparâmetros. O comando \texttt{python scripts/executar\_etapa4.py --executar} integra processamento, avaliações e figuras. Manifestos registram hashes de entradas e saídas, contagens e tempos, com retomada de etapas conferidas. Os Parquets da AWS e o CSV histórico do Label Cloud são entradas externas, não versionadas; o CSV deve ser obtido separadamente e corresponde ao SHA-256 definido na configuração. A documentação descreve a preparação do ambiente e dos caminhos locais.
 
 \section{Resultados e discussão}
 \subsection{Sinalização e resposta temporal}
