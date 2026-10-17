@@ -1,0 +1,10 @@
+{
+  "id": "anual-2025-b-03",
+  "config": "configuracao/experimento.json",
+  "local": "configuracao/local.json",
+  "expected_files": 365,
+  "expected_rows": 523937952,
+  "initial_free_gib": 200,
+  "monitor_interval_seconds": 5,
+  "prevent_sleep": true
+}

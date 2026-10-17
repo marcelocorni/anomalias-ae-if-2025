@@ -1,0 +1,17 @@
+\begin{table}[htbp]
+\centering\small
+\caption{Sinalização em Q99,5. A interseção reúne todas as transações sinalizadas pelos dois modelos, associadas ou não a bots MEV.}
+\label{tab:sinalizacao}
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+Recorte & AE (\%) & IF (\%) & Interseção & Jaccard \\
+\midrule
+Treino & 0,858 & 0,411 & 163.048 & 0,095 \\
+Pectra & 0,872 & 0,468 & 70.072 & 0,142 \\
+Validação & 0,500 & 0,500 & 40.424 & 0,107 \\
+Teste & 2,583 & 1,156 & 1.024.167 & 0,128 \\
+Fusaka/BPO1 & 10,539 & 1,453 & 109.941 & 0,069 \\
+Estresse & 17,385 & 2,667 & 523.147 & 0,075 \\
+\bottomrule
+\end{tabular}
+\end{table}

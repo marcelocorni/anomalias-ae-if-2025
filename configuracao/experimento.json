@@ -1,0 +1,97 @@
+{
+  "schema_version": 1,
+  "experimento": "sbrc2027-b-2025",
+  "matriz": "B",
+  "percentual_blocos": 100,
+  "timezone_dados": "UTC",
+  "janelas": [
+    {
+      "chave": "treino",
+      "papel": "train",
+      "inicio": "2025-01-01",
+      "fim_exclusivo": "2025-05-01"
+    },
+    {
+      "chave": "transicao_pectra",
+      "papel": "retrospective",
+      "inicio": "2025-05-01",
+      "fim_exclusivo": "2025-06-01"
+    },
+    {
+      "chave": "validacao",
+      "papel": "validation",
+      "inicio": "2025-06-01",
+      "fim_exclusivo": "2025-07-01"
+    },
+    {
+      "chave": "teste",
+      "papel": "test",
+      "inicio": "2025-07-01",
+      "fim_exclusivo": "2025-12-01"
+    },
+    {
+      "chave": "transicao_fusaka_bpo1",
+      "papel": "transition",
+      "inicio": "2025-12-01",
+      "fim_exclusivo": "2025-12-10"
+    },
+    {
+      "chave": "estresse_pos_fusaka_bpo1",
+      "papel": "future_stress",
+      "inicio": "2025-12-10",
+      "fim_exclusivo": "2026-01-01"
+    }
+  ],
+  "seed": 42,
+  "recursos": {
+    "memory_limit": "24GB",
+    "threads": 8,
+    "inference_batch_size": 200000,
+    "min_free_gib": 150
+  },
+  "autoencoder": {
+    "hidden_dims": [
+      16,
+      8
+    ],
+    "latent_dim": 4,
+    "batch_size": 65536,
+    "max_epochs": 200,
+    "patience": 12,
+    "min_delta": 1e-05,
+    "learning_rate": 0.001,
+    "weight_decay": 1e-05,
+    "device": "cuda",
+    "amp": true,
+    "internal_validation_modulus": 10
+  },
+  "isolation_forest": {
+    "training_sample_size": 500000,
+    "n_estimators": 200,
+    "max_samples_tree": 8192
+  },
+  "calibracao": {
+    "q990": 0.99,
+    "q995": 0.995,
+    "q999": 0.999
+  },
+  "labelcloud": {
+    "snapshot_date": null,
+    "expected_rows": 3913,
+    "sha256": "fc4652e4b9f2c9ee3faebd85e1e9dbf0dff973ddf33937c6a5713f73574042c4"
+  },
+  "drift": {
+    "psi_bins": 10,
+    "ks_grid_points": 101
+  },
+  "top_fractions": [
+    0.001,
+    0.005,
+    0.01,
+    0.05
+  ],
+  "integridade": {
+    "validar_entradas": true,
+    "validar_saidas": true
+  }
+}
