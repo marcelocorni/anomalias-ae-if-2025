@@ -1,0 +1,11 @@
+{
+  "id": "anual-2025-b-revisao-01",
+  "config": "configuracao/experimento-revisao-01.json",
+  "local": "configuracao/local.json",
+  "expected_files": 365,
+  "expected_rows": 523937952,
+  "initial_free_gib": 200,
+  "monitor_interval_seconds": 5,
+  "prevent_sleep": true,
+  "reuse_required": true
+}

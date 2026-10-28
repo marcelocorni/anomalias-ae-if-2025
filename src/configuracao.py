@@ -1,10 +1,33 @@
 from pathlib import Path
 import math
 
-from .comum import ler_json
+from .comum import ler_json,sha256
 from .recortes import validar_janelas
 
 RAIZ = Path(__file__).resolve().parents[1]
+
+
+def validar_hiperparametros_fixos(data):
+    selection=data.get('selecao_hiperparametros')
+    if selection is None:return
+    if (selection.get('metodo')!='parametros_preselecionados_dissertacao'
+        or not isinstance(selection.get('referencia'),str)
+        or not isinstance(selection.get('sha256'),str)):
+        raise ValueError('Referência de hiperparâmetros inválida.')
+    reference=(RAIZ/selection['referencia']).resolve()
+    if reference.parent!=(RAIZ/'configuracao').resolve() or not reference.is_file():
+        raise ValueError('Referência de hiperparâmetros ausente ou fora de configuracao.')
+    if sha256(reference)!=selection['sha256']:
+        raise ValueError('Hash da referência de hiperparâmetros divergente.')
+    winners=ler_json(reference)
+    mappings={'AE':('autoencoder',{'hidden_dims':'hidden_dims','latent_dim':'latent_dim',
+                                 'learning_rate':'learning_rate','weight_decay':'weight_decay'}),
+              'IF':('isolation_forest',{'n_estimators':'n_estimators','max_samples_tree':'max_samples'})}
+    for method,(section,fields) in mappings.items():
+        parameters=winners.get(method,{}).get('parameters',{})
+        if any(source not in parameters or data[section].get(target)!=parameters[source]
+               for target,source in fields.items()):
+            raise ValueError(f'Hiperparâmetros de {method} divergem dos vencedores da dissertação.')
 
 
 def carregar(config=None, local=None):
@@ -34,6 +57,7 @@ def carregar(config=None, local=None):
         raise ValueError('Frações top-k inválidas.')
     if data['recursos']['min_free_gib'] < 0:
         raise ValueError('Reserva de disco negativa.')
+    validar_hiperparametros_fixos(data)
     paths = {key: (RAIZ / value).resolve() for key, value in locations.items()}
     if set(paths) != {'dados', 'labelcloud_csv', 'resultados'}:
         raise ValueError('Configuração local requer dados, labelcloud_csv e resultados.')

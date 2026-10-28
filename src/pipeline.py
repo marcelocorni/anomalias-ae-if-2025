@@ -56,9 +56,19 @@ def concluir(ctx):
     ctx.manifest.update(scientific_status='completed',status='running')
     escrever_json(ctx.path/'manifesto.json',ctx.manifest)
     run,manifest,files,rows=correlacao.prepare(ctx.path)
-    result=correlacao.execute(run,manifest,files,rows,ctx.path/'figuras','16GB',8,131072)
-    ctx.manifest['correlation_outputs']=result['outputs']
-    ctx.manifest['stages']['correlacoes']={k:v for k,v in result.items() if k in ('status','updated_at','elapsed_seconds')}
+    if (ctx.path/'.etapas/correlacoes-reutilizadas.json').exists():
+        from .reutilizacao import CORRELATION_FILES
+        outputs=[ctx.path/'figuras'/name for name in CORRELATION_FILES]
+        def incompleta():
+            raise ValueError('Importação das correlações incompleta; retome reutilizar_preparacao.py.')
+        ctx.etapa('correlacoes-reutilizadas',files,outputs,incompleta)
+        ctx.manifest['correlation_outputs']={str(p):ctx.hash(p) for p in outputs}
+        ctx.manifest['stages']['correlacoes']=dict(status='completed',reused=True)
+        print('Correlações importadas e conferidas; nenhum cálculo repetido.',flush=True)
+    else:
+        result=correlacao.execute(run,manifest,files,rows,ctx.path/'figuras','16GB',8,131072)
+        ctx.manifest['correlation_outputs']=result['outputs']
+        ctx.manifest['stages']['correlacoes']={k:v for k,v in result.items() if k in ('status','updated_at','elapsed_seconds')}
     result=intersecao_mev.executar(ctx.path,intersecao_mev.planejar(ctx.path,ctx.root),already_locked=True)
     ctx.manifest['intersection_outputs']=result['outputs'].copy()
     ctx.manifest['stages']['intersecoes-mev']={k:v for k,v in result.items()
@@ -80,6 +90,8 @@ def executar(config, paths, mode, days=None, identifier=None, until='relatorios'
     ctx = Execucao(RAIZ,paths['resultados'],identifier,config,paths,[r['day'] for r in records],mode)
     con = None
     try:
+        if ctx.manifest.get('reuse',{}).get('status') not in (None,'completed'):
+            raise ValueError('Importação incompleta; retome reutilizar_preparacao.py antes do pipeline.')
         if ctx.manifest.get('scientific_status')=='completed':
             from .comum import sha256
             for path,digest in ctx.manifest['artifacts'].items():

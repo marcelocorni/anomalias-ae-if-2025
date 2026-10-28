@@ -13,9 +13,10 @@ from src.operacao import conferir_arquivos,monitorar,processo_ativo
 from src.pipeline import selecionar
 
 
-def preparar():
+def preparar(perfil=None):
     import psutil
-    settings=ler_json(RAIZ/'configuracao/execucao_etapa4.json')
+    profile_path=(RAIZ/(perfil or 'configuracao/execucao_etapa4.json')).resolve()
+    settings=ler_json(profile_path)
     config_path=RAIZ/settings['config'];local_path=RAIZ/settings['local']
     config,paths=carregar(config_path,local_path)
     selected=selecionar(config,paths,'completo')
@@ -24,6 +25,8 @@ def preparar():
     if (run/'.lock').exists() and processo_ativo(run/'.lock'):
         raise RuntimeError('O pipeline anual já está ativo.')
     manifest=ler_json(run/'manifesto.json') if (run/'manifesto.json').exists() else None
+    if settings.get('reuse_required') and (not manifest or manifest.get('reuse',{}).get('status')!='completed'):
+        raise ValueError('Importe e confira a preparação com reutilizar_preparacao.py antes de iniciar este perfil.')
     minimum=config['recursos']['min_free_gib'] if manifest else max(settings['initial_free_gib'],config['recursos']['min_free_gib'])
     free=psutil.disk_usage(str(RAIZ)).free
     if free < minimum*2**30:
@@ -37,20 +40,26 @@ def preparar():
     command=[str(RAIZ/'.venv/Scripts/python.exe'),'-u',str(RAIZ/'scripts/executar_pipeline.py'),
              '--config',str(config_path),'--local',str(local_path),'--modo','completo','--execucao',settings['id'],'--ate','relatorios','--executar']
     return settings,paths,run,command,dict(id=settings['id'],mode='completo',inventory=inventory,days=len(selected),
-        config=str(config_path),config_sha256=sha256(config_path),free_gib=free/2**30,minimum_free_gib=minimum,
+        profile=str(profile_path),config=str(config_path),config_sha256=sha256(config_path),
+        hyperparameter_selection=config.get('selecao_hiperparametros'),
+        hyperparameters={'AE':{k:config['autoencoder'][k] for k in ('hidden_dims','latent_dim','learning_rate','weight_decay')},
+                         'IF':{k:config['isolation_forest'][k] for k in ('n_estimators','max_samples_tree','training_sample_size')}},
+        free_gib=free/2**30,minimum_free_gib=minimum,
         cuda=gpu['cuda'],gpu=gpu['gpu'],
-        existing_status=manifest['status'] if manifest else None,annual_execution_started=False,
+        existing_status=manifest['status'] if manifest else None,
+        reused_preparation=manifest.get('reuse') if manifest else None,annual_execution_started=False,
         run=str(run),operation_logs=str(run/'operacao'))
 
 
 def main():
     parser=argparse.ArgumentParser(description='Etapa 4: verificar ou executar/retomar o ano completo.')
+    parser.add_argument('--perfil',type=Path,help='Perfil de execução; caminhos relativos partem da raiz do projeto.')
     group=parser.add_mutually_exclusive_group()
     group.add_argument('--verificar',action='store_true')
     group.add_argument('--executar',action='store_true')
     args=parser.parse_args()
     try:
-        settings,paths,run,command,report=preparar()
+        settings,paths,run,command,report=preparar(args.perfil)
         print(json.dumps(report,ensure_ascii=False,indent=2),flush=True)
         if args.executar:
             return monitorar(command,RAIZ,run,run/'operacao',

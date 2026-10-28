@@ -33,3 +33,5 @@ uv run --frozen python scripts/executar_pipeline.py --planejar
 ```
 
 Ensaios e execução parcial são descritos em [execução](documentacao/execucao-etapa4.md). Consulte também [metodologia](documentacao/metodologia.md). A reconciliação externa dos blocos permanece pendente.
+
+Para os hiperparâmetros preselecionados na dissertação, acrescente `--perfil "configuracao/execucao_revisao_01.json"`. Esse perfil grava uma nova execução em `resultados/anual-2025-b-revisao-01/` e exige importar previamente a preparação com `scripts/reutilizar_preparacao.py`, conforme a documentação de execução.
