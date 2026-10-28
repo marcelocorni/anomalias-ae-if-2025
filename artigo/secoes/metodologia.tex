@@ -19,7 +19,7 @@ Os nove atributos logarítmicos utilizam $\ell(x)=\ln(1+x)$ e são normalizados 
 
 \subsection{Origem e fixação dos hiperparâmetros}
 \label{sec:hiperparametros}
-Os hiperparâmetros são preselecionados em um experimento anterior da dissertação e mantidos fixos neste estudo. Naquele experimento, a grade do AE combinou três arquiteturas simétricas, duas taxas de aprendizado e dois valores de \textit{weight decay}; a grade do IF combinou três quantidades de árvores e quatro tamanhos de amostra por árvore. Cada algoritmo teve 12 candidatos, ajustados em cinco representações transacionais, totalizando 120 ajustes de busca. A escolha foi realizada por algoritmo, pela maior média de AP na validação semântica das cinco representações, com desempate determinístico.
+Os hiperparâmetros são pré selecionados em um experimento anterior da dissertação e mantidos fixos neste estudo. Naquele experimento, a grade do AE combinou três arquiteturas simétricas, duas taxas de aprendizado e dois valores de \textit{weight decay}; a grade do IF combinou três quantidades de árvores e quatro tamanhos de amostra por árvore. Cada algoritmo teve 12 candidatos, ajustados em cinco representações transacionais, totalizando 120 ajustes de busca. A escolha foi realizada por algoritmo, pela maior média de AP na validação semântica das cinco representações, com desempate determinístico.
 
 Transferimos os vencedores globais dessa seleção (Tabela~\ref{tab:hiperparametros}) para um novo ajuste de um AE e um IF na configuração B de 2025. A escolha precede este experimento. O Label Cloud é aplicado exclusivamente à avaliação posterior, preservando sua independência em relação aos parâmetros, ao treinamento e aos limiares.
 
