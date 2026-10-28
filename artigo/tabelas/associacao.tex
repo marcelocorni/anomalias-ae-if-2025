@@ -1,17 +1,17 @@
 \begin{table}[htbp]
 \centering\small
-\caption{Avaliação auxiliar por associação histórica a bots MEV. AP: Average Precision; prevalência em porcentagem.}
+\caption{Ordenação dos escores frente à associação MEV. $P@1\%$ é a precision nos 1\% maiores escores; Prev. é a prevalência (\%).}
 \label{tab:associacao}
-\begin{tabular}{@{}lrrrrr@{}}
+\begin{tabular}{@{}lrrrrrrr@{}}
 \toprule
-Recorte & Prevalência & AUC AE & AUC IF & AP AE & AP IF \\
+ & & \multicolumn{2}{c}{ROC-AUC} & \multicolumn{2}{c}{AP} & \multicolumn{2}{c}{$P@1\%$ (\%)} \\ Recorte & Prev. & AE & IF & AE & IF & AE & IF \\
 \midrule
-Treino & 0,859 & 0,3547 & 0,9055 & 0,0063 & 0,0405 \\
-Pectra & 1,028 & 0,4675 & 0,9159 & 0,0136 & 0,0577 \\
-Validação & 1,273 & 0,6343 & 0,9372 & 0,0694 & 0,1059 \\
-Teste & 1,859 & 0,6399 & 0,9364 & 0,0738 & 0,1741 \\
-Fusaka/BPO1 & 1,010 & 0,7438 & 0,8894 & 0,0829 & 0,0491 \\
-Estresse & 0,876 & 0,8268 & 0,8449 & 0,0595 & 0,0266 \\
+Treino & 0,859 & 0,6432 & 0,9129 & 0,0128 & 0,0442 & 0,58 & 1,22 \\
+Pectra & 1,028 & 0,7132 & 0,9210 & 0,0277 & 0,0633 & 4,29 & 4,12 \\
+Validação & 1,273 & 0,8111 & 0,9421 & 0,1076 & 0,1219 & 19,87 & 15,79 \\
+Teste & 1,859 & 0,7690 & 0,9481 & 0,0866 & 0,2067 & 8,17 & 29,26 \\
+Fusaka/BPO1 & 1,010 & 0,6189 & 0,9040 & 0,0329 & 0,0524 & 8,85 & 5,67 \\
+Estresse & 0,876 & 0,6309 & 0,8822 & 0,0286 & 0,0349 & 7,12 & 1,71 \\
 \bottomrule
 \end{tabular}
 \end{table}

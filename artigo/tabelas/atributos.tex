@@ -1,0 +1,16 @@
+\begin{table}[htbp]
+\centering\small
+\caption{Atributos utilizados pelos modelos. $\ell(x)=\ln(1+x)$.}
+\label{tab:atributos}
+\begin{tabularx}{\linewidth}{@{}p{2.7cm}X@{}}
+\toprule
+Grupo & Atributos \\
+\midrule
+Execução e valor & $\ell$(gás usado); gás usado/limite; $\ell$(valor); $\ell$(nonce); status do recibo. \\
+Taxas & $\ell$(preço efetivo); $\ell$(taxa máxima); $\ell$(prioridade máxima); preço efetivo/taxa máxima. \\
+Tipos & Indicadores dos tipos 0, 1 e 3. \\
+Contexto do bloco & Posição relativa; $\ell$(número de transações); $\ell$(contagens por remetente e destinatário); rank percentual do preço efetivo. \\
+Tempo & Seno/cosseno da hora e do dia da semana. \\
+\bottomrule
+\end{tabularx}
+\end{table}

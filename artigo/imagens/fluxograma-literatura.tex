@@ -1,0 +1,39 @@
+\documentclass[tikz,border=4pt]{standalone}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[brazil]{babel}
+\usepackage{times}
+\usetikzlibrary{arrows.meta}
+\definecolor{linha}{HTML}{459BAE}
+\definecolor{fundo}{HTML}{F1F9FB}
+\definecolor{verde}{HTML}{62966D}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,
+ caixa/.style={draw=linha,fill=fundo,rounded corners=2pt,line width=.8pt,
+ align=center,font=\small,inner sep=7pt},
+ seta/.style={-{Latex[length=2mm]},draw=black!65,line width=.7pt},
+ fase/.style={draw=black!30,dashed,line width=.65pt,fill=black!1},
+ titulo/.style={anchor=west,font=\bfseries\small}]
+\draw[fase] (0,0) rectangle (14,-2.6);
+\node[titulo] at (.3,-.35) {Fase 1: Entrada};
+\node[caixa,text width=5.8cm,minimum height=1.25cm] (acervo) at (3.5,-1.55)
+ {\textbf{Acervo bibliográfico}\\Artigos sobre detecção de anomalias,\\Ethereum e MEV};
+\node[caixa,text width=5.8cm,minimum height=1.25cm] (eixos) at (10.5,-1.55)
+ {\textbf{Eixos da revisão}\\Métodos, atividade transacional\\e avaliação dos escores};
+\draw[fase] (0,-3.2) rectangle (14,-7.8);
+\node[titulo] at (.3,-3.55) {Fase 2: Processamento};
+\node[caixa,text width=11.8cm,minimum height=1.2cm] (leitura) at (7,-4.65)
+ {\textbf{Organização temática e leitura analítica}\\Reconstrução e isolamento; contas e transações; front-running;\\mudanças temporais e métricas de avaliação};
+\node[caixa,text width=11.8cm,minimum height=1.2cm] (extracao) at (7,-6.65)
+ {\textbf{Extração dos elementos comparáveis}\\Unidade de análise, dados e atributos, papel dos rótulos,\\desenho experimental, escores e objetivos};
+\draw[fase] (0,-8.4) rectangle (14,-11.0);
+\node[titulo] at (.3,-8.75) {Fase 3: Saída};
+\node[caixa,draw=verde,fill=green!3,text width=11.8cm,minimum height=1.2cm] (sintese) at (7,-9.9)
+ {\textbf{Síntese dos trabalhos relacionados}\\Quadro comparativo e posicionamento do estudo:\\AE e IF em transações Ethereum de 2025};
+\draw[draw=black!65,line width=.7pt] (acervo.south) -- (3.5,-2.9) -- (7,-2.9);
+\draw[draw=black!65,line width=.7pt] (eixos.south) -- (10.5,-2.9) -- (7,-2.9);
+\draw[seta] (7,-2.9) -- (leitura.north);
+\draw[seta] (leitura.south) -- (extracao.north);
+\draw[seta] (extracao.south) -- (sintese.north);
+\end{tikzpicture}
+\end{document}

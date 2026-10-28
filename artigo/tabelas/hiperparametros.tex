@@ -1,0 +1,19 @@
+\begin{table}[htbp]
+\centering\small
+\caption{Hiperparâmetros preselecionados e regras de ajuste do artigo.}
+\label{tab:hiperparametros}
+\begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}p{1.3cm}>{\raggedright\arraybackslash}p{4.1cm}>{\raggedright\arraybackslash}X@{}}
+\toprule
+Modelo & Parâmetro ou regra & Valor \\
+\midrule
+AE & Arquitetura & $21\to16\to8\to4\to8\to16\to21$ \\
+AE & Learning rate; weight decay & $3\times10^{-4}$; zero \\
+AE & Otimizador; perda & AdamW; MSE de reconstrução \\
+AE & Batch; limite de épocas & 65.536; 200 \\
+AE & Patience; melhora mínima & 12 épocas; $10^{-5}$ \\
+IF & Árvores; amostras por árvore & 100; até 2.048 \\
+IF & Alvo da população de ajuste & 500.000 transações \\
+Ambos & Semente; representação & 42; B com 21 atributos \\
+\bottomrule
+\end{tabularx}
+\end{table}
