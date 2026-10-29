@@ -1,16 +1,17 @@
 \begin{table}[htbp]
 \centering\small
-\caption{Atributos utilizados pelos modelos. $\ell(x)=\ln(1+x)$.}
+\caption{Representação B: os 21 atributos na ordem da matriz. $\ell(x)=\ln(1+x)$.}
 \label{tab:atributos}
-\begin{tabularx}{\linewidth}{@{}p{2.7cm}X@{}}
+\begin{tabularx}{\linewidth}{@{}l>{\raggedright\arraybackslash}X@{}}
 \toprule
-Grupo & Atributos \\
+Posições & Atributos \\
 \midrule
-Execução e valor & $\ell$(gás usado); gás usado/limite; $\ell$(valor); $\ell$(nonce); status do recibo. \\
-Taxas & $\ell$(preço efetivo); $\ell$(taxa máxima); $\ell$(prioridade máxima); preço efetivo/taxa máxima. \\
-Tipos & Indicadores dos tipos 0, 1 e 3. \\
-Contexto do bloco & Posição relativa; $\ell$(número de transações); $\ell$(contagens por remetente e destinatário); rank percentual do preço efetivo. \\
-Tempo & Seno/cosseno da hora e do dia da semana. \\
+1--2 & $\ell$(gás usado); gás usado/limite. \\
+3--6 & $\ell$(preço efetivo); $\ell$(taxa máxima); $\ell$(prioridade máxima); preço efetivo/taxa máxima. \\
+7--9 & $\ell$(valor); $\ell$(nonce); status do recibo. \\
+10--12 & Indicadores dos tipos 0, 1 e 3, respectivamente. \\
+13--17 & Posição relativa; $\ell$(número de transações no bloco); $\ell$(contagem por remetente); $\ell$(contagem por destinatário); rank percentual do preço efetivo. \\
+18--21 & Seno e cosseno da hora; seno e cosseno do dia da semana. \\
 \bottomrule
 \end{tabularx}
 \end{table}

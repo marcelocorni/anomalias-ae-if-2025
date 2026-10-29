@@ -1,0 +1,26 @@
+\documentclass[tikz,border=4pt]{standalone}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[brazil]{babel}
+\usepackage{times}
+\usetikzlibrary{arrows.meta,positioning}
+\definecolor{linha}{HTML}{459BAE}
+\begin{document}
+\begin{tikzpicture}[
+ box/.style={draw=linha,fill=cyan!3,rounded corners=2pt,align=center,font=\small,inner sep=5pt,text width=3.5cm,minimum height=1.05cm},
+ arrow/.style={-{Latex[length=1.8mm]},line width=.65pt,draw=black!70}]
+\node[box] (prior) at (0,0) {\textbf{Parâmetros anteriores}\\Dissertação: treino em 2024\\Validação jan--abr/2025};
+\node[box] (train) at (4.6,0) {\textbf{Ajuste em jan--abr/2025}\\AE: reserva interna de 10\%\\IF: alvo de 500 mil};
+\node[box] (scores) at (9.2,0) {\textbf{Escores em todo o ano}\\Mesmos 21 atributos\\AE e IF fixos};
+\node[box] (june) at (0,-2.25) {\textbf{Calibração em jun/2025}\\Q99; Q99,5; Q99,9\\Cortes congelados};
+\node[box] (sets) at (4.6,-2.25) {\textbf{Comparação temporal}\\Teste jul--nov; dezembro\\Maio retrospectivo};
+\node[box,draw=green!45!black,fill=green!3] (aux) at (9.2,-2.25) {\textbf{Referência auxiliar}\\Label Cloud após escores\\AP, P@k e associações};
+\draw[arrow] (prior) -- (train);
+\draw[arrow] (train) -- (scores);
+\draw[arrow] (scores.south) -- ++(0,-.42) -| (june.north);
+\draw[arrow] (june) -- (sets);
+\draw[arrow] (sets) -- (aux);
+\node[font=\small,align=center,text width=12.8cm] at (4.6,-3.65)
+ {O Label Cloud não participa da seleção de hiperparâmetros, do ajuste ou da calibração.};
+\end{tikzpicture}
+\end{document}

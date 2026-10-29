@@ -9,13 +9,11 @@ A literatura é organizada em três eixos: detecção de anomalias; atividade il
 \label{fig:revisao-literatura}
 \end{figure}
 
-\subsection{Reconstrução e isolamento na detecção de anomalias}
-Sakurada e Yairi \cite{Sakurada2014} investigam autoencoders para detecção de anomalias por redução não linear de dimensionalidade, em dados artificiais e telemetria. O erro de reconstrução mede o afastamento de uma observação da representação aprendida e fundamenta o escore transacional do AE neste estudo.
+Quanto aos mecanismos de detecção, Sakurada e Yairi \cite{Sakurada2014} investigam autoencoders para detecção de anomalias por redução não linear de dimensionalidade, em dados artificiais e telemetria. O erro de reconstrução mede o afastamento de uma observação da representação aprendida e fundamenta o escore transacional do AE neste estudo.
 
 Liu et al.\ \cite{Liu2008} propõem o Isolation Forest, que constrói árvores aleatórias sobre subamostras e associa caminhos médios curtos a observações mais facilmente isoladas. Reconstrução e isolamento produzem escores com escalas distintas; sua aplicação à mesma população permite comparar conjuntos priorizados pelos dois mecanismos.
 
-\subsection{Contas, transações e padrões de MEV na Ethereum}
-Farrugia et al.\ \cite{Farrugia2020} classificam contas Ethereum com XGBoost, utilizando 42 atributos e 4.681 contas, das quais 2.179 rotuladas como ilícitas. A agregação do histórico caracteriza a conta; a unidade transacional adotada aqui permite examinar operações individuais de um mesmo remetente.
+Na análise da Ethereum, Farrugia et al.\ \cite{Farrugia2020} classificam contas Ethereum com XGBoost, utilizando 42 atributos e 4.681 contas, das quais 2.179 rotuladas como ilícitas. A agregação do histórico caracteriza a conta; a unidade transacional adotada aqui permite examinar operações individuais de um mesmo remetente.
 
 Podgorelec et al.\ \cite{Podgorelec2020} incorporam detecção personalizada de anomalias à assinatura automatizada de transações Ethereum. O perfil individual orienta uma decisão anterior à assinatura, enquanto nosso protocolo examina operações executadas e seu contexto intrabloco.
 
@@ -27,9 +25,8 @@ Zhang et al.\ \cite{Zhang2024FRAD} apresentam o FRAD, com classificação terná
 
 \input{tabelas/comparacao-trabalhos}
 
-\subsection{Avaliação de escores e mudanças temporais}
-Gama et al.\ \cite{Gama2014} discutem a adaptação a \textit{concept drift}, incluindo mudanças na relação entre entradas e alvos. Aqui, acompanhamos mudanças marginais de atributos e escores, mantendo os limiares congelados para observar sua relação com a evolução das sinalizações.
+A comparação ao longo do tempo acrescenta outra dimensão. Gama et al.\ \cite{Gama2014} discutem a adaptação a \textit{concept drift}, incluindo mudanças na relação entre entradas e alvos. Aqui, acompanhamos mudanças marginais de atributos e escores, mantendo os limiares congelados para observar sua relação com a evolução das sinalizações.
 
 Saito e Rehmsmeier \cite{Saito2015} discutem ROC e Precision-Recall em populações desbalanceadas. Precision caracteriza a composição do conjunto sinalizado, e recall, a recuperação da referência positiva. Combinamos ROC-AUC, AP e concentração no topo do ranking para distinguir ordenação global, cobertura e volume de investigação.
 
-Em síntese, reconstrução e isolamento fundamentam os detectores; os estudos de contas e transações distinguem unidades de análise e supervisão; e a literatura de MEV caracteriza padrões de interesse. Este artigo cruza esses eixos em uma comparação temporal de AE e IF com atributos comuns e parâmetros pré selecionados. A decomposição da concordância quantifica a contribuição de cada método; ROC, Precision-Recall e associação histórica a bots MEV permitem relacionar essa contribuição às prioridades de investigação. Essa comparação constitui a base para uma futura avaliação semântica dos padrões priorizados.
+Em síntese, reconstrução e isolamento fundamentam os detectores; os estudos de contas e transações distinguem unidades de análise e supervisão; e a literatura de MEV caracteriza padrões de interesse. Este artigo cruza esses eixos em uma comparação temporal de AE e IF com atributos comuns e parâmetros pré-selecionados. A decomposição da concordância quantifica a contribuição de cada método; ROC, Precision-Recall e associação histórica a bots MEV permitem relacionar essa contribuição às prioridades de investigação. Essa comparação constitui a base para uma futura avaliação semântica dos padrões priorizados.
