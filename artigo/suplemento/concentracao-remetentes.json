@@ -1,0 +1,105 @@
+{
+  "execucao": "anual-2025-b-revisao-01",
+  "assinatura": "ae213d7dd05b3bfeea9710a7d1bde54d652fc6532b1aa4d5ad475861d5bb74c8",
+  "labelcloud_parquet_sha256": "21b465122a0ae688ff06c3f20cec40c1a1269fe20ca8f09658a885e8b6c939c6",
+  "enderecos_mev_bot_na_referencia": 3748,
+  "segundos": 76.29,
+  "recortes": {
+    "treino": {
+      "transacoes": 147512905,
+      "associadas": 1266993,
+      "remetentes_ativos": 68,
+      "top_10": {
+        "remetentes": 10,
+        "transacoes": 1255021,
+        "fracao_das_associadas": 0.9905508554506616
+      },
+      "top_100": {
+        "remetentes": 68,
+        "transacoes": 1266993,
+        "fracao_das_associadas": 1.0
+      },
+      "segundos": 21.07
+    },
+    "transicao_pectra": {
+      "transacoes": 41982829,
+      "associadas": 431717,
+      "remetentes_ativos": 47,
+      "top_10": {
+        "remetentes": 10,
+        "transacoes": 427392,
+        "fracao_das_associadas": 0.9899818631186634
+      },
+      "top_100": {
+        "remetentes": 47,
+        "transacoes": 431717,
+        "fracao_das_associadas": 1.0
+      },
+      "segundos": 6.11
+    },
+    "validacao": {
+      "transacoes": 41950663,
+      "associadas": 534006,
+      "remetentes_ativos": 42,
+      "top_10": {
+        "remetentes": 10,
+        "transacoes": 532184,
+        "fracao_das_associadas": 0.996588053317753
+      },
+      "top_100": {
+        "remetentes": 42,
+        "transacoes": 534006,
+        "fracao_das_associadas": 1.0
+      },
+      "segundos": 5.99
+    },
+    "teste": {
+      "transacoes": 241020375,
+      "associadas": 4481039,
+      "remetentes_ativos": 55,
+      "top_10": {
+        "remetentes": 10,
+        "transacoes": 4465543,
+        "fracao_das_associadas": 0.996541873436049
+      },
+      "top_100": {
+        "remetentes": 55,
+        "transacoes": 4481039,
+        "fracao_das_associadas": 1.0
+      },
+      "segundos": 35.44
+    },
+    "transicao_fusaka_bpo1": {
+      "transacoes": 14264473,
+      "associadas": 144018,
+      "remetentes_ativos": 34,
+      "top_10": {
+        "remetentes": 10,
+        "transacoes": 143236,
+        "fracao_das_associadas": 0.994570123179047
+      },
+      "top_100": {
+        "remetentes": 34,
+        "transacoes": 144018,
+        "fracao_das_associadas": 1.0
+      },
+      "segundos": 1.99
+    },
+    "estresse_pos_fusaka_bpo1": {
+      "transacoes": 37206707,
+      "associadas": 326074,
+      "remetentes_ativos": 29,
+      "top_10": {
+        "remetentes": 10,
+        "transacoes": 325138,
+        "fracao_das_associadas": 0.9971294859449082
+      },
+      "top_100": {
+        "remetentes": 29,
+        "transacoes": 326074,
+        "fracao_das_associadas": 1.0
+      },
+      "segundos": 5.6
+    }
+  }
+}

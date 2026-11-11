@@ -1,7 +1,7 @@
 \section{Resultados e discussão}
 \label{sec:resultados}
 \subsection{Ajuste e resposta temporal}
-O AE completou 200 épocas, selecionando o estado da última época, com MSE de validação interna de 0,10244. A perda interna caiu de 0,16801 na primeira época para esse valor final, acompanhando a redução da perda de treino de 0,25991 para 0,10239. O ajuste utilizou 132.718.736 transações, com 14.794.169 reservadas para validação interna. O IF foi ajustado em 500.637 transações e produziu escores, assim como o AE, para os 523.937.952 registros do ano. O treinamento do AE levou 2h13min44s e o do IF, 9,16s; a inferência anual consumiu 4min32s e 14min19s, respectivamente, em uma RTX 3060 para o AE e oito threads de CPU para o IF. Os tempos incluem as verificações de saídas e descrevem ambientes distintos de CPU e GPU, sem constituir benchmark de hardware equivalente.
+O AE atingiu MSE interno de 0,10244 na época 200, com 132.718.736 transações para ajuste e 14.794.169 para validação interna. O IF foi ajustado com 500.637 transações. O ajuste levou 2h13min44s no AE e 9,16s no IF. A inferência anual levou 4min32s e 14min19s, respectivamente. Os tempos incluem a verificação das saídas e descrevem execuções distintas em GPU RTX 3060 (AE) e CPU com oito threads (IF).
 
 Os limiares de referência Q99,5 foram $\tau_{AE}=0{,}42453$ e $\tau_{IF}=0{,}58162$. A Tabela~\ref{tab:sinalizacao} mostra que cortes congelados produzem volumes diferentes entre períodos. No teste, o AE sinalizou 4.207.945 transações (1,746\%) e o IF, 2.557.613 (1,061\%). A interseção reuniu 956.106 registros, e a união, 5.809.452, com Jaccard de 0,165. Esse resultado responde à RQ1 e motiva examinar, na RQ2, quais registros cada conjunto acrescenta.
 
@@ -14,13 +14,16 @@ Os limiares de referência Q99,5 foram $\tau_{AE}=0{,}42453$ e $\tau_{IF}=0{,}58
 \label{fig:temporal}
 \end{figure}
 
-Na transição Fusaka/BPO1, a taxa do AE alcançou 8,943\%, e a do IF, 1,335\%; no estresse, foram 8,148\% e 1,745\%. Em relação à calibração nominal de 0,5\%, o estresse expandiu a sinalização aproximadamente 16,3 vezes no AE e 3,5 vezes no IF. O comportamento também ocorre nos outros cortes: em Q99, as taxas no estresse foram 11,147\% e 2,936\%; em Q99,9, 3,018\% e 0,314\%. A expansão do AE, portanto, persiste em diferentes níveis de seletividade.
+Na transição Fusaka/BPO1, AE e IF sinalizaram 8,943\% e 1,335\% em Q99,5. No estresse, as taxas foram 8,148\% e 1,745\%, cerca de 16,3 e 3,5 vezes a calibração nominal. A expansão do AE persiste em Q99 e Q99,9.
 
-A Figura~\ref{fig:temporal} relaciona essa resposta às mudanças dos escores. Do teste ao estresse, o PSI passou de 0,030 para 0,657 no AE e de 0,090 para 0,941 no IF. Embora o IF tenha maior PSI dos escores no estresse, o AE apresenta maior expansão da taxa sinalizada. O PSI considera a distribuição nos intervalos de referência, enquanto a decisão depende da massa acima de um corte específico. A leitura conjunta evita equiparar mudança global de distribuição a crescimento da cauda sinalizada. Nos atributos, o PSI do preço efetivo passou de 0,763 no teste para 2,958 no estresse, e o da taxa máxima, de 0,452 para 1,606, contextualizando a mudança do regime transacional.
+Do teste ao estresse, o PSI dos escores aumentou de 0,030 para 0,657 no AE e de 0,090 para 0,941 no IF (Figura~\ref{fig:temporal}). O AE ampliou mais a sinalização, pois a decisão depende da cauda acima do corte, enquanto o PSI resume mudanças entre intervalos. O PSI do preço efetivo passou de 0,763 para 2,958, e o da taxa máxima, de 0,452 para 1,606.
 
 \subsection{Prioridades de investigação e complementaridade}
+\input{tabelas/concentracao-remetentes}
+Dos 3.748 endereços de referência, 29 a 68 estiveram ativos em cada recorte (Tabela~\ref{tab:concentracao-remetentes}). No teste, 55 remetentes responderam por 4.481.039 transações associadas, das quais 99,65\% vieram dos dez mais frequentes. A participação desses dez ficou em torno de 99\% ou mais em todos os recortes. Como nenhum recorte alcançou 100 ativos, o top-100 cobre todas as associadas. Essa concentração dá maior peso aos remetentes frequentes nas métricas transacionais e delimita sua interpretação no nível de endereços.
+
 \input{tabelas/mev-bot}
-A Tabela~\ref{tab:mev-bot} decompõe as transações associadas a \texttt{mev\_bot} sinalizadas em Q99,5. No teste, o AE recuperou 544.738 associadas, e o IF, 757.192. Os modelos compartilharam 350.857 associadas; 193.881 foram exclusivas do AE e 406.335, do IF. A união alcançou 951.073, correspondentes a 21,22\% das 4.481.039 transações associadas do recorte. Em comparação com o IF isolado, a união acrescentou 25,61\% de associadas recuperadas, com crescimento do conjunto investigado de 2.557.613 para 5.809.452 registros.
+Em Q99,5, a união recuperou 951.073 associadas no teste, ou 21,22\% das 4.481.039 (Tabela~\ref{tab:mev-bot}). Ante o IF isolado, acrescentou 193.881 associadas do AE (+25,61\%), ampliando o volume de investigação de 2.557.613 para 5.809.452 transações.
 
 \begin{figure}[htbp]
 \centering
@@ -29,11 +32,11 @@ A Tabela~\ref{tab:mev-bot} decompõe as transações associadas a \texttt{mev\_b
 \label{fig:intersecoes}
 \end{figure}
 
-A interseção oferece outra política de priorização: as 350.857 associadas representam 36,70\% das 956.106 sinalizações compartilhadas no teste, frente a 12,95\% no conjunto do AE e 29,61\% no do IF. Sua concentração é aproximadamente 19,74 vezes a prevalência de 1,859\% no recorte. No teste, a união aumenta a recuperação, enquanto a interseção reduz o volume e eleva a concentração da referência histórica. Esses conjuntos não foram alinhados a um mesmo orçamento; os ganhos de cobertura são acompanhados pelos volumes correspondentes. Esses números permitem dimensionar o ganho e o custo de combinar os modelos.
+No teste, 350.857 das 956.106 sinalizações compartilhadas eram associadas (36,70\%), frente a 12,95\% no conjunto do AE e 29,61\% no do IF. A concentração na interseção foi 19,74 vezes a prevalência de 1,859\%. Os volumes das políticas de conjunto diferem.
 
-A composição varia entre regimes (Figura~\ref{fig:intersecoes}). No teste, 20,4\% da união associada são exclusivos do AE, 36,9\% compartilhados e 42,7\% exclusivos do IF. Esses 36,9\% usam como denominador as 951.073 associadas na união, diferentemente dos 36,70\% de concentração nas 956.106 sinalizações compartilhadas. No estresse, essas parcelas passam para 84,1\%, 6,0\% e 9,9\%. O AE recuperou 75.354 associadas, contra 13.313 do IF; a união alcançou 83.653, ou 25,65\% da referência do período. O IF acrescentou 8.299 associadas ao conjunto do AE, ganho de 11,01\%. Nessa janela, a interseção concentrou 2,25\% de associadas, abaixo dos 2,49\% do AE isolado: concordância entre detectores não assegura maior concentração em todos os regimes.
+Entre as 951.073 associadas na união do teste, 20,4\% foram exclusivas do AE, 36,9\% compartilhadas e 42,7\% exclusivas do IF (Figura~\ref{fig:intersecoes}). No estresse, as parcelas foram 84,1\%, 6,0\% e 9,9\%. O IF acrescentou 8.299 associadas ao AE (+11,01\%). A interseção concentrou 2,25\% de associadas, frente a 2,49\% no AE isolado.
 
-Na transição de dezembro, o AE recuperou 35.508 associadas e o IF, 10.800, compartilhando 5.607; a união reuniu 40.701, com recall de 28,26\%. As três janelas posteriores à calibração mostram, assim, contribuições distintas: o IF predomina entre as associadas exclusivas no teste, enquanto o AE predomina em dezembro. A combinação deve ser interpretada por período e pelo orçamento de investigação, e não como uma regra de superioridade invariável.
+Na transição de dezembro, a união reuniu 40.701 associadas (recall de 28,26\%). O IF predominou entre as associadas exclusivas no teste e o AE, em dezembro.
 
 A contribuição dos conjuntos deve ser lida em conjunto com a ordenação sob orçamento igual.
 \input{tabelas/associacao}
@@ -55,6 +58,6 @@ No estresse, a AP do IF permaneceu superior (0,0349 frente a 0,0286), assim como
 \label{fig:orcamento}
 \end{figure}
 
-A Figura~\ref{fig:orcamento} amplia essa comparação. No teste, o IF superou o AE nos quatro orçamentos, de 0,1\% a 5\%. No estresse, o AE apresentou maior concentração nos quatro: nos 0,1\% maiores escores, sua precision foi 18,10\%, contra 0,16\% do IF, abaixo da prevalência de 0,876\%; nos 5\%, foram 3,33\% e 3,04\%. A diferença reduz-se com a ampliação do conjunto investigado. A precision não cresce necessariamente quando o corte se torna mais extremo: no teste, o AE concentra 4,38\% no topo de 0,1\%, mas 14,77\% no topo de 5\%. Logo, escores mais extremos de anormalidade não precisam coincidir com maior concentração dessa categoria histórica.
+No teste, o AE concentrou mais associadas no orçamento de 0,1\% (4,38\% ante 0,61\% do IF, para $k=241.021$). Nesse ponto, a precision do IF ficou abaixo da prevalência de 1,859\%. O IF liderou em 0,5\%, 1\% e 5\%. Na janela de 10 a 31 de dezembro, o AE liderou nos quatro orçamentos: sua precision foi de 18,10\% ante 0,16\% do IF em 0,1\%, e de 3,33\% ante 3,04\% em 5\% (Figura~\ref{fig:orcamento}). No teste, a precision do AE subiu de 4,38\% em 0,1\% para 14,77\% em 5\%. A concentração da associação histórica depende de quanto do ranking se investiga.
 
-Em conjunto, a RQ1 evidencia a resposta temporal, a RQ2 decompõe a discordância e a RQ3 distingue ordenação e orçamento: limiares fixos produzem expansão temporal distinta das sinalizações; a sobreposição é parcial e sua composição muda entre recortes; e a qualidade global da ordenação não determina, sozinha, o método mais adequado a um orçamento restrito. A análise de AP, precision, recall e parcelas exclusivas permite escolher entre concentração, recuperação e volume de investigação com critérios quantitativos comuns.
+Os resultados das RQs indicam que limiares fixos geram volumes distintos, a composição da união varia por recorte e a AP global pode divergir da precision no orçamento de interesse.
