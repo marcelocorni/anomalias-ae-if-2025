@@ -1,0 +1,41 @@
+{
+  "source": "Etherscan Label Cloud, export histórico",
+  "source_information_url": "https://info.etherscan.com/public-name-tags-labels/",
+  "sha256": "fc4652e4b9f2c9ee3faebd85e1e9dbf0dff973ddf33937c6a5713f73574042c4",
+  "snapshot_date": null,
+  "capture_record_available": false,
+  "csv_columns": [
+    "transaction_from",
+    "label"
+  ],
+  "rows": 3913,
+  "unique_addresses": 3750,
+  "positive_unique_addresses": 3748,
+  "assignment": "positional_reconstruction",
+  "category_ranges_first_data_row_is_one": [
+    [
+      1,
+      163,
+      "mev_builder"
+    ],
+    [
+      164,
+      3911,
+      "mev_bot"
+    ],
+    [
+      3912,
+      3912,
+      "mev_relay"
+    ],
+    [
+      3913,
+      3913,
+      "mev_protection"
+    ]
+  ],
+  "multiple_occurrences": "bool_or(is_mev_bot) por endereço em minúsculas",
+  "evidence": "A rotina histórica registra a concatenação por categoria; não foi recuperado um comprovante independente da captura original.",
+  "external_input": "dados_auxiliares/labelcloud.csv",
+  "availability": "Arquivo exato necessário para reexecutar a avaliação. A URL informativa não garante sua recuperação por download."
+}

@@ -1,0 +1,58 @@
+Representação B e verificações da execução
+
+As posições 1--21 seguem src/atributos.py e a Tabela 3.
+1 gas_used_log, 2 gas_used_ratio, 3 effective_gas_price_log,
+4 max_fee_per_gas_log, 5 max_priority_fee_log, 6 fee_cap_utilization,
+7 transaction_value_log, 8 nonce_log, 9 receipt_status,
+10 tx_type_0, 11 tx_type_1, 12 tx_type_3, 13 transaction_index_pct,
+14 block_tx_count_log, 15 sender_tx_count_block_log,
+16 receiver_tx_count_block_log, 17 gas_price_rank_block,
+18 hour_sin, 19 hour_cos, 20 weekday_sin, 21 weekday_cos.
+
+Gás é quantidade de unidades de gás. Taxas são wei por unidade de gás.
+value é a representação numérica da fonte em wei, armazenada como double.
+Contagens, nonce, status e indicadores são adimensionais. Tempo é UTC.
+
+Preço efetivo usa COALESCE(receipt_effective_gas_price, gas_price, 0).
+O log do preço efetivo aplica LN(1+GREATEST(preço,0)).
+Gás usado, taxas máximas, prioridade, valor e nonce usam
+LN(1+GREATEST(COALESCE(valor,0),0)).
+gas_used_ratio divide receipt_gas_used por gas quando gas>0, senão vale zero.
+Um numerador nulo com denominador positivo produz nulo e reprova a finitude.
+fee_cap_utilization divide preço efetivo por max_fee_per_gas quando este é
+positivo, senão vale zero. Razões não são truncadas para o intervalo [0,1].
+
+A auditoria original exige receipt_status em {0,1} e rejeita status nulo.
+Embora o SELECT das features contenha COALESCE(receipt_status,0), a auditoria
+é executada antes e interrompe entradas com esse campo ausente.
+O tipo também é obrigatório. Só os tipos 0,1,3 têm indicadores explícitos.
+Os tipos 2 e 4 têm esses três indicadores iguais a zero.
+
+Posição relativa = transaction_index/(n_b-1), com n_b transações disponíveis
+no bloco. Para bloco unitário, vale zero. As posições intrabloco são auditadas
+como contíguas desde zero. Contagens de remetente e destinatário são obtidas
+com COUNT(*) por bloco e endereço, incluindo grupos de destinatário nulo.
+Os logs dessas contagens usam LN(1+contagem).
+
+Rank = PERCENT_RANK por bloco, ordenado por preço efetivo crescente.
+Fórmula (RANK-1)/(n_b-1), com empates usando o menor rank do grupo.
+Para bloco unitário, o DuckDB retorna zero. Empates não são quebrados por row_id
+nesse atributo. No top-k dos escores, o desempate é por row_id crescente.
+
+Hora usa EXTRACT(hour), de 0 a 23, em seno/cosseno de 2*pi*hora/24.
+Dia da semana usa EXTRACT(dow), de 0 (domingo) a 6, em 2*pi*dow/7.
+Nove logs são normalizados por mediana/IQR do treino. IQR nulo recebe escala 1.
+Os dois logs de taxas máximas excluem tipos 0/1 do ajuste da escala e produzem
+zero nesses tipos. Todas as demais colunas preservam a escala da feature.
+
+A finitude é verificada nos atributos, nas matrizes pré-processadas e após
+conversão float32 para inferência. Os registros existentes são de auditoria
+global; uma tabulação separada por tipo requer nova leitura dos Parquets.
+
+PSI usa os decis exatos do treino, ordenados e deduplicados. Para fronteiras
+b1<...<bk, os intervalos são (-inf,b1],(b1,b2],...,(bk,+inf).
+Sem fronteiras, há um único intervalo com probabilidade 1. Intervalos vazios
+recebem proporção 0 antes de aplicar piso 1e-6 a cada probabilidade na fórmula
+(a-e)*ln(a/e). Não há renormalização após o piso. Menor cardinalidade pode
+reduzir o número de intervalos. A KS compara CDFs com <= em até 101 quantis
+exatos distintos do treino. Não são calculados valores-p.

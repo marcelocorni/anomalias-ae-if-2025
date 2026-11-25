@@ -1,0 +1,17 @@
+{
+  "epochs": 200,
+  "first": {
+    "epoch": 1,
+    "train_loss": 0.25990639315377323,
+    "internal_validation_loss": 0.16801300906066363,
+    "improved": true
+  },
+  "last": {
+    "epoch": 200,
+    "train_loss": 0.10239037416203843,
+    "internal_validation_loss": 0.10243550011917929,
+    "improved": true
+  },
+  "best_epoch": 200,
+  "best_internal_validation_loss": 0.10243550011917929
+}

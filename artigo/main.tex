@@ -5,7 +5,7 @@
 \usepackage[brazil]{babel}
 \usepackage{indentfirst,graphicx,url,booktabs,array,amsmath,flafter,tabularx}
 \sloppy
-\title{Detecção de anomalias em transações Ethereum:\\avaliação temporal de Autoencoder e Isolation Forest}
+\title{Priorização de transações Ethereum por escores de anomalia:\\avaliação temporal sob diferentes orçamentos de investigação}
 \author{Marcelo Corni Alves\inst{1}, Saulo Moraes Villela\inst{1},\\
 Heder Soares Bernardino\inst{1}, Alex Borges Vieira\inst{1}}
 \address{Programa de Pós-Graduação em Ciência da Computação (PPGCC)\\
@@ -21,10 +21,10 @@ Universidade Federal de Juiz de Fora (UFJF) -- Juiz de Fora, MG, Brasil
 \raggedbottom
 \maketitle
 \begin{abstract}
-We compare Autoencoder (AE) and Isolation Forest (IF) on 523.9 million Ethereum transactions from 2025 available in the AWS source using 21 on-chain features, previously selected hyperparameters, and thresholds calibrated in June. At Q99.5, during July--November, IF flags 757,192 transactions historically associated with MEV bots, compared with 544,738 for AE. Their intersection concentrates 36.70\% associated transactions, while their union recovers 951,073. IF achieves higher Average Precision in every window, but AE concentrates more associated transactions in the top 1\% of scores during December. The results distinguish overall ranking quality, temporal response, and investigation budgets, supporting prioritization policies with different investigation volumes.
+We compare Autoencoder (AE) and Isolation Forest (IF) for post-execution prioritization of 523.9 million Ethereum transactions available in AWS for 2025. Both use 21 features, previously selected hyperparameters, and thresholds calibrated in June. Historical sender associations with MEV bots provide an auxiliary reference. IF achieves higher Average Precision in every window. Among the top 1\% of test scores, IF concentrates 29.26\% associated transactions versus 8.17\% for AE. During December 10--31, AE concentrates 7.12\% versus 1.71\% for IF. These findings relate detector choice to temporal composition and investigation budgets.
 \end{abstract}
 \begin{resumo}
-Comparamos Autoencoder (AE) e Isolation Forest (IF) em 523,9 milhões de transações Ethereum de 2025, disponíveis na fonte AWS, com 21 atributos on-chain, hiperparâmetros pré-selecionados e limiares calibrados em junho. Em Q99,5, no teste de julho a novembro, o IF sinaliza 757.192 transações historicamente associadas a bots MEV, contra 544.738 do AE. A interseção concentra 36,70\% de associadas, e a união recupera 951.073. O IF obtém maior Average Precision em todos os recortes, mas o AE concentra mais associadas no topo de 1\% dos escores em dezembro. Os resultados distinguem ordenação global, resposta temporal e orçamento de investigação, caracterizando políticas de priorização com diferentes volumes de investigação.
+Comparamos Autoencoder (AE) e Isolation Forest (IF) na priorização pós-execução de 523,9 milhões de transações Ethereum disponíveis na AWS em 2025. Ambos usam 21 atributos, hiperparâmetros pré-selecionados e limiares calibrados em junho. A associação histórica do remetente a bots MEV fornece uma referência auxiliar. O IF obtém maior Average Precision em todos os recortes. Entre os 1\% maiores escores do teste, o IF concentra 29,26\% de associadas, ante 8,17\% do AE. De 10 a 31 de dezembro, o AE concentra 7,12\%, ante 1,71\% do IF. Os achados relacionam a escolha do detector à composição temporal e ao orçamento de investigação.
 \end{resumo}
 \input{secoes/introducao}
 \input{secoes/trabalhos-relacionados}

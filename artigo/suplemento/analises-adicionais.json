@@ -1,0 +1,33 @@
+{
+  "source_signature": "ae213d7dd05b3bfeea9710a7d1bde54d652fc6532b1aa4d5ad475861d5bb74c8",
+  "analysis_identity": "de04b20679cf7833264ce0bfb6fc2a12a9391527464f96d89146ee98b4d51f9b",
+  "source_json_sha256": "28e4d829b7520196fedaf40da89cd344def8b21ca6a0e1dfd4a06f4afa179450",
+  "protocol": {
+    "version": 1,
+    "exclusions": [
+      0,
+      1,
+      3
+    ],
+    "sender_order": "associated transaction count DESC, address ASC; separately per original window",
+    "exclude_population": "all transactions from the selected positive senders",
+    "budgets": [
+      0.001,
+      0.005,
+      0.01,
+      0.05
+    ],
+    "budget_rounding": "ceil(fraction * remaining population)",
+    "tie_break": "row_id ASC",
+    "macro_recall": "unweighted mean of sender recalls across all active positive senders, including zero recoveries",
+    "threshold": "original frozen q995, unchanged after sender exclusions",
+    "baselines": {
+      "preco_gas": "effective_gas_price_log DESC (original, unscaled attribute)",
+      "inicio_bloco": "-transaction_index_pct DESC (earlier relative position first)"
+    },
+    "baseline_scope": "original population; no fitted parameters or label-based direction selection",
+    "reference": "existing normalized historical sender association, grouped with bool_or",
+    "type_scope": "counts, prevalence and AE/IF q995 flags; no AP per type or changed representation"
+  },
+  "execution_seconds": 17094.13
+}

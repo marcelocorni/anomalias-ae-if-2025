@@ -10,11 +10,11 @@ Os limiares de referência Q99,5 foram $\tau_{AE}=0{,}42453$ e $\tau_{IF}=0{,}58
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=\linewidth]{imagens/resposta-temporal.pdf}
-\caption{Sinalização em Q99,5 e PSI dos escores em relação ao treino. Junho define os limiares; maio é retrospectivo. Os pontos representam recortes de durações distintas.}
+\caption{Sinalização em Q99,5 e PSI dos escores em relação ao treino. Junho define os limiares; maio é retrospectivo. As barras representam recortes de durações distintas.}
 \label{fig:temporal}
 \end{figure}
 
-Na transição Fusaka/BPO1, AE e IF sinalizaram 8,943\% e 1,335\% em Q99,5. No estresse, as taxas foram 8,148\% e 1,745\%, cerca de 16,3 e 3,5 vezes a calibração nominal. A expansão do AE persiste em Q99 e Q99,9.
+Na transição Fusaka/BPO1, AE e IF sinalizaram 8,943\% e 1,335\% em Q99,5. No estresse, as taxas foram 8,148\% e 1,745\%, cerca de 16,3 e 3,5 vezes a calibração nominal. A expansão do AE persiste em Q99 e Q99,9, com taxas por recorte em \path{suplemento/recortes-quantis.csv}.
 
 Do teste ao estresse, o PSI dos escores aumentou de 0,030 para 0,657 no AE e de 0,090 para 0,941 no IF (Figura~\ref{fig:temporal}). O AE ampliou mais a sinalização, pois a decisão depende da cauda acima do corte, enquanto o PSI resume mudanças entre intervalos. O PSI do preço efetivo passou de 0,763 para 2,958, e o da taxa máxima, de 0,452 para 1,606.
 
@@ -23,7 +23,7 @@ Do teste ao estresse, o PSI dos escores aumentou de 0,030 para 0,657 no AE e de 
 Dos 3.748 endereços de referência, 29 a 68 estiveram ativos em cada recorte (Tabela~\ref{tab:concentracao-remetentes}). No teste, 55 remetentes responderam por 4.481.039 transações associadas, das quais 99,65\% vieram dos dez mais frequentes. A participação desses dez ficou em torno de 99\% ou mais em todos os recortes. Como nenhum recorte alcançou 100 ativos, o top-100 cobre todas as associadas. Essa concentração dá maior peso aos remetentes frequentes nas métricas transacionais e delimita sua interpretação no nível de endereços.
 
 \input{tabelas/mev-bot}
-Em Q99,5, a união recuperou 951.073 associadas no teste, ou 21,22\% das 4.481.039 (Tabela~\ref{tab:mev-bot}). Ante o IF isolado, acrescentou 193.881 associadas do AE (+25,61\%), ampliando o volume de investigação de 2.557.613 para 5.809.452 transações.
+Em Q99,5, a união recuperou 951.073 associadas no teste, ou 21,22\% das 4.481.039 (Tabela~\ref{tab:mev-bot}). Ante o IF isolado, acrescentou 193.881 associadas do AE (+25,61\%), acrescentando 3.251.839 sinalizações, com concentração marginal de 5,96\%. O volume passa de 2.557.613 para 5.809.452 transações. A decomposição está em \path{suplemento/custo-marginal.tex}.
 
 \begin{figure}[htbp]
 \centering
@@ -40,12 +40,12 @@ Na transição de dezembro, a união reuniu 40.701 associadas (recall de 28,26\%
 
 A contribuição dos conjuntos deve ser lida em conjunto com a ordenação sob orçamento igual.
 \input{tabelas/associacao}
-A Tabela~\ref{tab:associacao} reúne ROC-AUC, AP e precision nos 1\% maiores escores. O IF apresentou maior ROC-AUC e AP em todos os recortes. No teste, sua ROC-AUC foi 0,9481, contra 0,7690 do AE, e sua AP, 0,2067, contra 0,0866. Sob o mesmo orçamento de 2.410.204 transações, o IF priorizou 705.170 associadas e o AE, 196.885: precision de 29,26\% e 8,17\%, respectivamente. Os lifts foram 15,74 e 4,39 em relação à prevalência do período.
+A Tabela~\ref{tab:associacao} reúne ROC-AUC, AP e precision nos 1\% maiores escores. O IF apresentou maior ROC-AUC e AP nos seis recortes, enquanto o AE liderou P@1\% em quatro deles. No teste, sua ROC-AUC foi 0,9481, contra 0,7690 do AE, e sua AP, 0,2067, contra 0,0866. Sob o orçamento relativo de 2.410.204 transações, o IF priorizou 705.170 associadas e o AE, 196.885: precision de 29,26\% e 8,17\%, respectivamente. Os lifts foram 15,74 e 4,39. Esse orçamento dimensiona a triagem relativa e requer capacidade operacional própria para inspeção.
 
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=\linewidth]{imagens/curvas-pr-teste-estresse.pdf}
-\caption{Precision-Recall no teste e no estresse, com eixo vertical de 0 a 0,35. Linhas tracejadas indicam a prevalência, referência aleatória em expectativa. As APs usam todos os grupos de escores, antes da redução de pontos gráficos; ROC-AUC consta na Tabela~\ref{tab:associacao}.}
+\caption{Precision-Recall no teste e na janela de 10--31 de dezembro. O eixo principal mostra 0--1 e o quadro interno amplia 0--0,35. Linhas tracejadas indicam a prevalência, referência aleatória em expectativa. As APs usam todos os grupos de escores, antes da redução de pontos gráficos; ROC-AUC consta na Tabela~\ref{tab:associacao}.}
 \label{fig:curvas}
 \end{figure}
 
@@ -60,4 +60,8 @@ No estresse, a AP do IF permaneceu superior (0,0349 frente a 0,0286), assim como
 
 No teste, o AE concentrou mais associadas no orçamento de 0,1\% (4,38\% ante 0,61\% do IF, para $k=241.021$). Nesse ponto, a precision do IF ficou abaixo da prevalência de 1,859\%. O IF liderou em 0,5\%, 1\% e 5\%. Na janela de 10 a 31 de dezembro, o AE liderou nos quatro orçamentos: sua precision foi de 18,10\% ante 0,16\% do IF em 0,1\%, e de 3,33\% ante 3,04\% em 5\% (Figura~\ref{fig:orcamento}). No teste, a precision do AE subiu de 4,38\% em 0,1\% para 14,77\% em 5\%. A concentração da associação histórica depende de quanto do ranking se investiga.
 
-Os resultados das RQs indicam que limiares fixos geram volumes distintos, a composição da união varia por recorte e a AP global pode divergir da precision no orçamento de interesse.
+No teste, os três maiores remetentes respondiam por 92,24\% das associadas. Excluído o maior, a P@1\% caiu de 29,26\% para 10,45\% no IF e de 8,17\% para 3,61\% no AE. Excluídos os três maiores, a prevalência caiu de 1,86\% para 0,15\% e a P@1\% para 0,62\% e 0,45\%, respectivamente. Nesse cenário, o macro recall em 1\% foi de 3,98\% no AE e 1,14\% no IF, com recuperação em 22 e 15 dos 52 remetentes ativos. No estresse, a exclusão dos três maiores inverteu a liderança em P@1\%: 1,08\% no IF e 0,52\% no AE. O AE manteve maior macro recall (8,84\% frente a 1,33\%).
+
+Na população original, ambos os modelos superaram as duas baselines em AP e P@1\% nos seis recortes. No teste, as baselines de preço e posição atingiram P@1\% de 0,68\% e 0,30\%. A vantagem depende também do orçamento: no topo de 0,1\% do estresse, a regra por preço atingiu 0,97\%, acima de 0,16\% do IF e abaixo de 18,10\% do AE.
+
+A auditoria por tipo registrou zero nulos, valores não finitos e overflows na conversão para float32. No teste, o tipo 2 reuniu 4.480.232 das 4.481.039 associadas. Para o tipo 4, nenhuma transação apresentou associação histórica nos recortes observados. No estresse, 10,11\% das 208.758 transações desse tipo foram sinalizadas pelo AE em Q99,5 e 2,87\% pelo IF.

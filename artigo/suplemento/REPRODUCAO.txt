@@ -1,0 +1,48 @@
+Reprodução das tabelas e figuras a partir dos agregados
+
+Execute na raiz do projeto LaTeX usando Python e matplotlib.
+Versão do ambiente experimental: matplotlib 3.11.2.
+
+python suplemento/reproduzir_agregados.py
+
+O comando gera:
+tabelas/concentracao-remetentes.tex
+suplemento/custo-marginal.tex
+suplemento/recortes-quantis.csv
+imagens/curvas-pr-teste-estresse.pdf
+imagens/orcamento-investigacao.pdf
+
+Entradas fornecidas:
+dados-artigo.json
+suplemento/concentracao-remetentes.json
+suplemento/curvas-pr.json
+
+Os pontos das curvas já foram reduzidos para visualização na execução original.
+AP e ROC-AUC são transcritas dos resultados calculados com todos os grupos
+de escores empatados. O script verifica a assinatura da concentração e as
+contagens de associadas por recorte. A redução gráfica não é usada para AP.
+
+O histórico resumido está em treinamento-ae.json. O JSON registra a primeira
+e a última época e o estado escolhido. As contagens Q99/Q99,5/Q99,9 e os
+limiares estão em recortes-quantis.csv.
+
+A reexecução dos modelos e da avaliação anual usa o perfil descrito no artigo,
+os Parquets externos AWS e o CSV exato indicado em referencia-labelcloud.json.
+A identificação por checksum permite conferir o CSV, mas sua obtenção exata
+depende do export histórico. A página atual do provedor não substitui esse CSV.
+
+Identidade experimental: configuracao-experimento.json, hiperparametros-dissertacao.json
+e manifesto-resumido.json. O último é um extrato identificado pelo hash do manifesto
+integral; não contém os marcadores completos de retomada ou os pesos dos modelos.
+As métricas e figuras aqui reproduzidas usam os agregados originais, sem retreino.
+
+Análises adicionais nos seis recortes:
+  sensibilidade-rankings.csv — AE/IF com 0, 1 ou 3 remetentes excluídos e
+  baselines de preço e posição na população original. As taxas são frações.
+  AP, ROC-AUC e prevalência se repetem nas linhas do mesmo ranking.
+  sinalizacao-por-tipo.csv — populações, associação e sinalização em Q99,5.
+  finitude-por-tipo.csv — nulos, não finitos e overflow float32 por atributo,
+  tipo e etapa. A coluna rows é o denominador de cada atributo.
+  analises-adicionais.json — protocolo, assinatura e SHA-256 da saída de origem.
+As tabelas foram exportadas do resultado consolidado, reconciliado com os
+relatórios originais. Os CSVs contêm agregados, sem identificadores de remetentes.
